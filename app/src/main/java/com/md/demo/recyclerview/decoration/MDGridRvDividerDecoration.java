@@ -32,7 +32,9 @@ public class MDGridRvDividerDecoration extends RecyclerView.ItemDecoration {
         a.recycle();
     }
 
-
+    /*
+     * for循环，每个item都会绘制
+     */
     @Override
     public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
         // 绘制间隔，每一个item，绘制右边和下方间隔样式
@@ -80,6 +82,7 @@ public class MDGridRvDividerDecoration extends RecyclerView.ItemDecoration {
     /*
      * 计算分割线的距离，如果不重写 onDraw 会直接显示父控件的布局背景颜色
      * VERTICAL 和 HORIZONTAL 只有一个会生效，要么上下滑动，要么左右滑动
+     * 注意：outRect不是坐标，他是左上右下空出来的距离
      */
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -107,7 +110,7 @@ public class MDGridRvDividerDecoration extends RecyclerView.ItemDecoration {
             return;
         }
 
-        // 不是最后一条，就是又有item的正常上下左右的值
+        // 不是最后一条，就是所有item的正常上下左右的边距值（不是矩形坐标的值）
         outRect.set(0, 0, mDivider.getIntrinsicWidth(), mDivider.getIntrinsicHeight());
     }
 
@@ -128,7 +131,7 @@ public class MDGridRvDividerDecoration extends RecyclerView.ItemDecoration {
         final int bottom = child.getBottom() + params.bottomMargin + mDivider.getIntrinsicHeight();
         final int left = child.getRight() + params.rightMargin;
         final int right = left + mDivider.getIntrinsicWidth();
-        mDivider.setBounds(left, top, right, bottom);
+        mDivider.setBounds(left, top, right, bottom);// 分割线的边框是这设置的，不是大小
         mDivider.draw(canvas);
     }
 
@@ -149,7 +152,7 @@ public class MDGridRvDividerDecoration extends RecyclerView.ItemDecoration {
         final int bottom = top + mDivider.getIntrinsicHeight();
         final int left = child.getLeft() - params.leftMargin;
         final int right = child.getRight() + params.rightMargin + mDivider.getIntrinsicWidth();
-        mDivider.setBounds(left, top, right, bottom);
+        mDivider.setBounds(left, top, right, bottom);// 分割线的边框是这设置的，不是大小
         mDivider.draw(canvas);
     }
 }
